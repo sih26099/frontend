@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0B2545;
+  --color-navy-light: #13315C;
+  --color-steel: #145DA0;
+  --color-steel-light: #1E76C8;
+  --color-surface: #F7F9FB;
+  --color-success: #1E7145;
+  --color-alert: #B3261E;
+  --color-saffron: #FF9933;
+  --color-indiagreen: #138808;
+
+  --font-display: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-surface text-navy font-body antialiased;
+}
+
+/* Signature element: tricolor accent bar */
+.tricolor-bar {
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    #ff9933 0%,
+    #ff9933 33.33%,
+    #ffffff 33.33%,
+    #ffffff 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+}
+
+.tricolor-bar-animated {
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+  background: #e5e9ef;
+}
+
+.tricolor-bar-animated::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #ff9933, #ffffff, #138808);
+  transform-origin: left;
+  animation: fillBar 2.2s ease-in-out infinite;
+}
+
+@keyframes fillBar {
+  0% {
+    transform: scaleX(0);
+  }
+  60% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tricolor-bar-animated::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
