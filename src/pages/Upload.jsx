@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { UploadCloud, FileSpreadsheet, X } from "lucide-react";
+import { UploadCloud, FileSpreadsheet, X, Download } from "lucide-react";
 import ErrorState from "../components/ErrorState";
 
 const SAMPLE_ROWS = [
@@ -10,8 +10,40 @@ const SAMPLE_ROWS = [
   { source: "BPCL", code: "BVBR-1IN", desc: "Brass Ball Valve 1IN" },
 ];
 
+const SAMPLE_CSV_ROWS = [
+  { source: "IOCL", code: "SSP-2IN-001", desc: "SS Pipe-2IN" },
+  { source: "ONGC", code: "STLPIPE-050", desc: "Steel Pipe, 2 inch dia" },
+  { source: "GAIL", code: "PIPE-STL-050mm", desc: "Pipe-STL-050mm" },
+  { source: "BPCL", code: "BVBR-1IN", desc: "Brass Ball Valve 1IN" },
+  { source: "HPCL", code: "BALLV-1INCH", desc: "Ball Valve Brass 1 inch" },
+  { source: "IOCL", code: "GSKT-CU-3MM", desc: "Copper Gasket 3mm" },
+  { source: "ONGC", code: "CU-GASKET-003", desc: "Gasket, Copper, 3mm thick" },
+  { source: "GAIL", code: "FLNG-SS-4IN", desc: "SS Flange 4 Inch" },
+  { source: "BPCL", code: "FLANGE-STL-100", desc: "Steel Flange 100mm" },
+  { source: "HPCL", code: "NUT-HEX-M12", desc: "Hex Nut M12" },
+  { source: "IOCL", code: "HEXNUT-12MM", desc: "Hexagonal Nut, 12mm" },
+  { source: "ONGC", code: "BOLT-SS-M10-50", desc: "SS Bolt M10x50mm" },
+];
+
 const MAX_SIZE_MB = 10;
 const ALLOWED_EXT = [".csv", ".xlsx"];
+
+function downloadSampleCSV() {
+  const header = "Source CPSE,Material Code,Description";
+  const rows = SAMPLE_CSV_ROWS.map(
+    (r) => `${r.source},${r.code},"${r.desc}"`
+  );
+  const csvContent = [header, ...rows].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "matsync-sample-materials.csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
 
 export default function Upload() {
   const [file, setFile] = useState(null);
@@ -65,12 +97,22 @@ export default function Upload() {
       <p className="text-xs tracking-widest uppercase text-steel font-medium mb-2">
         Step 1
       </p>
-      <h1 className="font-display text-3xl font-semibold text-navy mb-3">
-        Upload a material list
-      </h1>
+      <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
+        <h1 className="font-display text-3xl font-semibold text-navy">
+          Upload a material list
+        </h1>
+        <button
+          onClick={downloadSampleCSV}
+          className="inline-flex items-center gap-1.5 text-sm text-steel hover:text-steel-light font-medium whitespace-nowrap"
+        >
+          <Download size={16} />
+          Download sample CSV
+        </button>
+      </div>
       <p className="text-navy/70 mb-8 max-w-xl">
         Upload a CSV or Excel file with material entries from one or more CPSEs. No fixed
-        column format required — MatSync will detect and normalize the fields.
+        column format required — MatSync will detect and normalize the fields. Don't have
+        a file handy? Download the sample above and upload it right back.
       </p>
 
       <div
