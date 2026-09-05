@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { UploadCloud, FileSpreadsheet, X, Download, Check } from "lucide-react";
 import ErrorState from "../components/ErrorState";
+import StepIndicator from "../components/StepIndicator";
 
 const SAMPLE_ROWS = [
   { source: "IOCL", code: "SSP-2IN-001", desc: "SS Pipe-2IN" },
@@ -109,6 +110,8 @@ export default function Upload() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 relative">
+      <StepIndicator current={1} />
+
       {toast && (
         <div className="fixed top-6 right-6 z-50 bg-navy text-white text-sm font-medium px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-[fadeIn_0.2s_ease-out]">
           <Check size={16} className="text-saffron" />

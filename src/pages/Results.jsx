@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
-import { Download, Filter } from "lucide-react";
+import { Download, Filter, Copy, Check } from "lucide-react";
 import { mockClusters, summaryStats } from "../data/mockClusters";
+import StepIndicator from "../components/StepIndicator";
 
 export default function Results() {
   const [cpseFilter, setCpseFilter] = useState("All");
@@ -14,6 +15,8 @@ export default function Results() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <StepIndicator current={3} />
+
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <div>
           <p className="text-xs tracking-widest uppercase text-steel font-medium mb-2">
@@ -74,6 +77,32 @@ function StatCard({ label, value, color = "text-navy" }) {
   );
 }
 
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async (e) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // clipboard not available, fail silently
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="text-navy/30 hover:text-navy/70 transition-colors flex-shrink-0"
+      aria-label={`Copy ${text}`}
+      title="Copy code"
+    >
+      {copied ? <Check size={14} className="text-success" /> : <Copy size={14} />}
+    </button>
+  );
+}
+
 function ClusterCard({ cluster }) {
   const isVerified = cluster.method === "llm_verified";
   return (
@@ -83,7 +112,10 @@ function ClusterCard({ cluster }) {
           <h3 className="font-display font-semibold text-navy text-lg">
             {cluster.canonicalName}
           </h3>
-          <p className="font-mono text-xs text-navy/50 mt-0.5">{cluster.canonicalCode}</p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <p className="font-mono text-xs text-navy/50">{cluster.canonicalCode}</p>
+            <CopyButton text={cluster.canonicalCode} />
+          </div>
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <span

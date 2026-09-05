@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import StepIndicator from "../components/StepIndicator";
 
 const steps = [
   "Normalizing text & expanding abbreviations",
@@ -24,6 +25,8 @@ export default function Processing() {
 
   return (
     <div className="max-w-xl mx-auto px-4 sm:px-6 py-24 text-center">
+      <StepIndicator current={2} />
+
       <h1 className="font-display text-2xl font-semibold text-navy mb-2">
         Standardizing your material list
       </h1>
