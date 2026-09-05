@@ -1,9 +1,4 @@
-const stack = [
-  { name: "React + Vite + Tailwind", role: "Frontend" },
-  { name: "Go", role: "Backend & matching engine" },
-  { name: "PostgreSQL (Supabase)", role: "Database" },
-  { name: "Groq / Gemini (free tier)", role: "AI disambiguation" },
-];
+import { Link } from "react-router-dom";
 
 export default function About() {
   return (
@@ -35,29 +30,33 @@ export default function About() {
           output is a single harmonized catalog with a standardized name and code per
           item, along with an explainable match reason for every grouping.
         </p>
+        <p className="text-navy font-medium mt-4">
+          Every duplicate SKU eliminated is a duplicate purchase order CPSEs never have
+          to raise — turning fragmented catalogs into measurable procurement savings.
+        </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="font-display font-semibold text-navy text-lg mb-4">Tech stack</h2>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {stack.map((s) => (
-            <div
-              key={s.name}
-              className="bg-white border border-navy/10 rounded-lg px-4 py-3"
-            >
-              <p className="font-medium text-navy text-sm">{s.name}</p>
-              <p className="text-xs text-navy/50 mt-0.5">{s.role}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
         <h2 className="font-display font-semibold text-navy text-lg mb-2">Team</h2>
         <p className="text-navy/70">
           A 6-member CSE team from College of Engineering Muttathara (KTU, Kerala),
           built for Smart India Hackathon 2026.
         </p>
+      </section>
+
+      <section className="bg-navy rounded-xl px-6 py-8 text-center">
+        <h2 className="font-display font-semibold text-white text-xl mb-2">
+          See it in action
+        </h2>
+        <p className="text-white/70 mb-5 max-w-md mx-auto">
+          Upload a sample material list and watch MatSync harmonize it in real time.
+        </p>
+        <Link
+          to="/upload"
+          className="inline-block bg-saffron text-navy font-medium px-6 py-2.5 rounded-lg hover:bg-saffron/90 transition-colors"
+        >
+          Try it yourself
+        </Link>
       </section>
     </div>
   );

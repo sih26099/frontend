@@ -20,6 +20,10 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-surface text-navy font-body antialiased;
 }
