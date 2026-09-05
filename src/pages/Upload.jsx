@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { UploadCloud, FileSpreadsheet, X, Download } from "lucide-react";
+import { UploadCloud, FileSpreadsheet, X, Download, Check } from "lucide-react";
 import ErrorState from "../components/ErrorState";
 
 const SAMPLE_ROWS = [
@@ -49,8 +49,15 @@ export default function Upload() {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const [toast, setToast] = useState(null);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2200);
+  };
 
   const handleFile = (f) => {
     if (!f) return;
@@ -81,6 +88,11 @@ export default function Upload() {
     if (e.dataTransfer.files?.[0]) handleFile(e.dataTransfer.files[0]);
   };
 
+  const handleDownloadSample = () => {
+    downloadSampleCSV();
+    showToast("Sample CSV downloaded");
+  };
+
   const handleRun = () => {
     if (!file) {
       setError({
@@ -89,11 +101,21 @@ export default function Upload() {
       });
       return;
     }
-    navigate("/processing");
+    setIsRunning(true);
+    setTimeout(() => {
+      navigate("/processing");
+    }, 500);
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 relative">
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 bg-navy text-white text-sm font-medium px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-[fadeIn_0.2s_ease-out]">
+          <Check size={16} className="text-saffron" />
+          {toast}
+        </div>
+      )}
+
       <p className="text-xs tracking-widest uppercase text-steel font-medium mb-2">
         Step 1
       </p>
@@ -102,7 +124,7 @@ export default function Upload() {
           Upload a material list
         </h1>
         <button
-          onClick={downloadSampleCSV}
+          onClick={handleDownloadSample}
           className="inline-flex items-center gap-1.5 text-sm text-steel hover:text-steel-light font-medium whitespace-nowrap"
         >
           <Download size={16} />
@@ -193,9 +215,10 @@ export default function Upload() {
 
       <button
         onClick={handleRun}
-        className="mt-10 w-full sm:w-auto bg-steel hover:bg-steel-light text-white font-medium px-8 py-3 rounded-md transition-colors"
+        disabled={isRunning}
+        className="mt-10 w-full sm:w-auto bg-steel hover:bg-steel-light disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium px-8 py-3 rounded-md transition-colors"
       >
-        Run Standardization
+        {isRunning ? "Starting..." : "Run Standardization"}
       </button>
     </div>
   );
