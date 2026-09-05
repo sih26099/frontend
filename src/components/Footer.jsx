@@ -29,11 +29,6 @@ export default function Footer() {
                 Terms &amp; Conditions
               </Link>
             </li>
-            <li>
-              <Link to="/cookie-preferences" className="hover:text-white transition-colors">
-                Cookie Preferences
-              </Link>
-            </li>
           </ul>
         </div>
       </div>
