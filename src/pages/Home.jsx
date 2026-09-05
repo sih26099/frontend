@@ -57,11 +57,16 @@ export default function Home() {
 
       {/* Stats bar */}
       <section className="bg-white border-y border-navy/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6">
-          <Stat label="Raw entries processed" value={summaryStats.rawEntries} />
-          <Stat label="Standardized items" value={summaryStats.standardizedItems} />
-          <Stat label="Duplicates eliminated" value={summaryStats.duplicatesEliminated} />
-          <Stat label="CPSEs covered" value={summaryStats.cpses.length} />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <Stat label="Raw entries processed" value={summaryStats.rawEntries} />
+            <Stat label="Standardized items" value={summaryStats.standardizedItems} />
+            <Stat label="Duplicates eliminated" value={summaryStats.duplicatesEliminated} />
+            <Stat label="CPSEs covered" value={summaryStats.cpses.length} />
+          </div>
+          <p className="text-xs text-navy/40 mt-4">
+            * Based on a sample run. Live counts activate once connected to the processing engine.
+          </p>
         </div>
       </section>
 
