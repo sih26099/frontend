@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FloatingNav from "./components/FloatingNav";
 import Home from "./pages/Home";
 import Upload from "./pages/Upload";
 import Processing from "./pages/Processing";
@@ -27,6 +28,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <FloatingNav />
     </div>
   );
 }
