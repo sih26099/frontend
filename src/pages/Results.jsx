@@ -3,8 +3,33 @@ import { Download, Filter, Copy, Check } from "lucide-react";
 import { mockClusters, summaryStats } from "../data/mockClusters";
 import StepIndicator from "../components/StepIndicator";
 
+function exportClustersToCSV(clusters) {
+  const header = "Canonical Name,Canonical Code,Confidence %,Method,Source CPSE,Raw Entry";
+  const rows = [];
+  clusters.forEach((c) => {
+    c.members.forEach((m) => {
+      const escapedName = `"${c.canonicalName.replace(/"/g, '""')}"`;
+      const escapedRaw = `"${m.raw.replace(/"/g, '""')}"`;
+      rows.push(
+        `${escapedName},${c.canonicalCode},${c.confidence},${c.method},${m.source},${escapedRaw}`
+      );
+    });
+  });
+  const csvContent = [header, ...rows].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "matsync-standardized-results.csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 export default function Results() {
   const [cpseFilter, setCpseFilter] = useState("All");
+  const [exported, setExported] = useState(false);
 
   const filtered = useMemo(() => {
     if (cpseFilter === "All") return mockClusters;
@@ -12,6 +37,12 @@ export default function Results() {
       c.members.some((m) => m.source === cpseFilter)
     );
   }, [cpseFilter]);
+
+  const handleExport = () => {
+    exportClustersToCSV(filtered);
+    setExported(true);
+    setTimeout(() => setExported(false), 1800);
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
@@ -26,8 +57,19 @@ export default function Results() {
             Standardized Results
           </h1>
         </div>
-        <button className="inline-flex items-center gap-2 border border-navy/20 hover:border-navy/40 text-navy font-medium px-5 py-2.5 rounded-md text-sm transition-colors self-start">
-          <Download size={16} /> Export CSV
+        <button
+          onClick={handleExport}
+          className="inline-flex items-center gap-2 border border-navy/20 hover:border-navy/40 text-navy font-medium px-5 py-2.5 rounded-md text-sm transition-colors self-start"
+        >
+          {exported ? (
+            <>
+              <Check size={16} className="text-success" /> Exported
+            </>
+          ) : (
+            <>
+              <Download size={16} /> Export CSV
+            </>
+          )}
         </button>
       </div>
 
