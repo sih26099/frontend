@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: theme('colors.surface.page');
+  color: theme('colors.ink.900');
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: #C9DCEF;
+}
+
+:focus-visible {
+  outline: 2px solid #1D4E89;
+  outline-offset: 1px;
+}
+
+/* Compact data table primitives shared across pages */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.data-table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: theme('colors.ink.500');
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  padding: 8px 12px;
+  border-bottom: 1px solid theme('colors.ink.200');
+  background: theme('colors.surface.sunk');
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+
+.data-table tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid theme('colors.ink.100');
+  color: theme('colors.ink.900');
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+  background: theme('colors.surface.sunk');
+}
+
+.scroll-x {
+  overflow-x: auto;
+}
+
+.mono {
+  font-family: theme('fontFamily.mono');
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
