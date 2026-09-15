@@ -54,34 +54,8 @@ body {
   vertical-align: middle;
 }
 
-.data-table tbody tr {
-  transition: background-color 120ms ease;
-}
-
 .data-table tbody tr:hover {
   background: theme('colors.surface.sunk');
-}
-
-/* Skeleton loading placeholders */
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    theme('colors.ink.100') 25%,
-    theme('colors.ink.200') 37%,
-    theme('colors.ink.100') 63%
-  );
-  background-size: 400% 100%;
-  animation: skeleton-shimmer 1.4s ease infinite;
-  border-radius: 4px;
-}
-
-@keyframes skeleton-shimmer {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0 50%;
-  }
 }
 
 .scroll-x {

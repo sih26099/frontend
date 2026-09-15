@@ -9,7 +9,6 @@ import MatchTypeBadge from '../components/common/MatchTypeBadge'
 import ScoreBreakdown from '../components/matching/ScoreBreakdown'
 import CriticalConflictWarning from '../components/matching/CriticalConflictWarning'
 import AttributeComparisonTable from '../components/matching/AttributeComparisonTable'
-import Breadcrumbs from '../components/common/Breadcrumbs'
 import { getAttributeComparisons } from '../lib/transformers'
 import { MATCH_TYPE_DESCRIPTIONS } from '../lib/constants'
 import { fmt, fmtDateTime } from '../lib/formatters'
@@ -41,12 +40,6 @@ export default function MatchDetail() {
 
   return (
     <div className="space-y-4">
-      <Breadcrumbs
-        items={[
-          { label: 'Match Candidates', to: '/matches' },
-          { label: `Match ${id.slice(0, 8)}` },
-        ]}
-      />
       <button
         onClick={() => navigate(-1)}
         className="inline-flex items-center gap-1.5 text-sm text-ink-500 hover:text-ink-900"
