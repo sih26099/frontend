@@ -6,6 +6,7 @@ import { useApi } from '../hooks/useApi'
 import LoadingState from '../components/common/LoadingState'
 import ErrorState from '../components/common/ErrorState'
 import Button from '../components/common/Button'
+import Breadcrumbs from '../components/common/Breadcrumbs'
 import { DetailSection, Field } from '../components/materials/DetailSection'
 import { fmtDateTime, fmtDimension } from '../lib/formatters'
 
@@ -21,6 +22,12 @@ export default function MaterialDetail() {
 
   return (
     <div className="space-y-4">
+      <Breadcrumbs
+        items={[
+          { label: 'Materials', to: '/materials' },
+          { label: m.existing_material_code || m.material_description || 'Material' },
+        ]}
+      />
       <div className="flex items-center justify-between flex-wrap gap-2">
         <button
           onClick={() => navigate(-1)}
